@@ -1,0 +1,30 @@
+{
+  "version": "v1",
+  "targets": [
+    {
+      "target_id": "svc-auth-01",
+      "type": "service",
+      "address": "https://auth.internal.example",
+      "owner": "team-auth",
+      "labels": [
+        "critical",
+        "prod"
+      ],
+      "allowed_actions": [
+        "passive-scan"
+      ]
+    },
+    {
+      "target_id": "svc-web-01",
+      "type": "web",
+      "address": "https://web.internal.example",
+      "owner": "team-web",
+      "labels": [
+        "prod"
+      ],
+      "allowed_actions": [
+        "passive-scan"
+      ]
+    }
+  ]
+}

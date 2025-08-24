@@ -1,0 +1,20 @@
+%% docs/architecture/module-deps.mmd
+graph LR
+  subgraph CORE[impl/core/]
+    OC[orchestrator.py]
+    MID[middlewares.py]
+    STP[stop_policy.py]
+    GRD[guards.py]
+    ERR[errors.py]
+  end
+  subgraph SCN[impl/scanner/]
+    ENG[engine.py]
+  end
+  subgraph UI[impl/ui/]
+    REP[reports.py]
+  end
+  OC --> MID
+  OC --> STP
+  OC --> GRD
+  OC --> ENG
+  OC --> REP

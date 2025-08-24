@@ -1,0 +1,20 @@
+%% docs/architecture/ci-and-quality-gates.mmd
+flowchart TD
+  DEV[Developer / AI 提交 PR] --> CI[GitHub Actions]
+  subgraph VALIDATORS["Required Checks"]
+    V1[pytest -q]
+    V2[python scripts/validate_flows.py]
+    V3[python scripts/validate_agents_doc.py]
+    V4[(optional) python scripts/validate_artifacts.py]
+  end
+  CI --> V1
+  CI --> V2
+  CI --> V3
+  CI --> V4
+  V1 --> GATE
+  V2 --> GATE
+  V3 --> GATE
+  V4 --> GATE
+  GATE{All pass?}
+  GATE -- No --> BLOCK[Block Merge]
+  GATE -- Yes --> MERGE[Allow Merge]

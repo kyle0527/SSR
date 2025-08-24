@@ -1,0 +1,53 @@
+%% docs/architecture/security-architecture-8x12-v4.mmd
+flowchart LR
+  subgraph C["Contracts & Config"]
+    C1[docs/schemas/flow.schema.json]
+    C2[docs/schemas/toggles.schema.json]
+    C3[docs/schemas/api.contracts.yaml]
+    C4[docs/agents.md · MODULES.md]
+    C5[config/toggles.yaml]
+    C6[impl/flows/scan_and_report.yaml]
+  end
+  subgraph CORE["Core · impl/core/"]
+    O[orchestrator.py]
+    R[registry.py]
+    M[middlewares.py]
+    S[stop_policy.py]
+    G[guards.py]
+  end
+  subgraph SCN["Scanning"]
+    E[impl/scanner/engine.py]
+    P[impl/proxy/scope.py]
+  end
+  subgraph API["API"]
+    T[impl/api/targets.py]
+  end
+  U[impl/ui/reports.py]
+  L[impl/telemetry/sdk.py]
+  Q[impl/io_runtime/job_queue.py]
+  A[(artifacts/<run_id>/...)]
+  A1[(findings.json)]
+  A2[(report.json · report.md)]
+  A3[(policy.json · diagnostics/* · telemetry.ndjson)]
+
+  C --> O
+  C3 --> T
+  C4 --> R
+  C5 --> O
+  C6 --> O
+
+  M --> O
+  S --> O
+  G --> O
+
+  O --> E
+  P --> E
+  E -->|raw findings| O
+  O -->|kept/dropped| U
+
+  U --> A2
+  O --> A1
+  O --> A3
+  A1 -.-> A
+  A2 -.-> A
+  A3 -.-> A

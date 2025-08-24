@@ -1,0 +1,23 @@
+oast.enabled: true
+iast.enabled: false
+asm.ingest.enabled: true
+
+# === Debug & Policy (appended) ===
+DEBUG: true
+LOG_LEVEL: INFO
+
+STOP_POLICY:
+  max_consecutive_errors: 3
+  max_runtime_seconds: 900
+  per_target_timeout_seconds: 60
+  fail_fast: true
+  max_drop_ratio: 0.5
+  hard_fail_on_schema_error: true
+
+GUARDS:
+  required_fields: ["id","target_id","rule_id","severity","confidence","location","scanner","ts"]
+  accepted_severity: ["low","medium","high","critical"]
+  min_confidence: 0.6
+  usefulness:
+    min_usefulness_score: 0.5
+    weights: {severity: 0.5, confidence: 0.3, evidence_quality: 0.2}
